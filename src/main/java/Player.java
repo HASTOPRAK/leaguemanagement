@@ -3,7 +3,7 @@
  * @author
  * 200316008 Yusuf Hastoprak
  * 200316003 Irem Boyalioglu
- * 200316030 Huseyin Ozdamar
+ * 200316030 Huseyin Ozdamar 
  *
  */
 class Player {

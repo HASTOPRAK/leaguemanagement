@@ -17,9 +17,7 @@ View and search for teams and players on the league
 View previous match results and top scorer on the league
 
 
-*/
-
-
+ */
 import java.util.List;
 import java.util.Scanner;
 
@@ -42,7 +40,7 @@ public class FootballLeagueManagement {
             System.out.println("8. View Match History");
             System.out.println("9. View Top Scorer");
             System.out.println("0. Exit");
-            System.out.print("Enter your choice: ");
+            System.out.println("Enter your choice: ");
 
             int choice = scanner.nextInt();
             scanner.nextLine();
@@ -50,9 +48,9 @@ public class FootballLeagueManagement {
             switch (choice) {
                 case 1:
                     /* Using League class to add team*/
-                    System.out.print("Enter team name: ");
+                    System.out.println("Enter team name: ");
                     String teamName = scanner.nextLine();
-                    System.out.print("Enter team ID: ");
+                    System.out.println("Enter team ID: ");
                     int teamID = scanner.nextInt();
                     scanner.nextLine();
                     league.addTeam(new Team(teamName, teamID));
@@ -61,14 +59,14 @@ public class FootballLeagueManagement {
 
                 case 2:
                     /* Using League class to add player with additional TeamID information*/
-                    System.out.print("Enter player name: ");
+                    System.out.println("Enter player name: ");
                     String playerName = scanner.nextLine();
-                    System.out.print("Enter player ID: ");
+                    System.out.println("Enter player ID: ");
                     int playerID = scanner.nextInt();
                     scanner.nextLine();
-                    System.out.print("Enter player position: ");
+                    System.out.println("Enter player position: ");
                     String position = scanner.nextLine();
-                    System.out.print("Enter team ID to add player: ");
+                    System.out.println("Enter team ID to add player: ");
                     int teamIdForPlayer = scanner.nextInt();
                     scanner.nextLine();
                     league.addPlayer(new Player(playerName, playerID, position), teamIdForPlayer);
@@ -77,10 +75,10 @@ public class FootballLeagueManagement {
 
                 case 3:
                     /* Using League's queue to schedule a match between two teams*/
-                    System.out.print("Enter first team ID: ");
+                    System.out.println("Enter first team ID: ");
                     int team1ID = scanner.nextInt();
                     scanner.nextLine();
-                    System.out.print("Enter second team ID: ");
+                    System.out.println("Enter second team ID: ");
                     int team2ID = scanner.nextInt();
                     scanner.nextLine();
                     Team team1 = league.teamMap.get(team1ID);
@@ -121,14 +119,33 @@ public class FootballLeagueManagement {
 
                 case 7:
                     /* Using League's BST to search */
-                    System.out.print("Enter team or player name to search: ");
+                    System.out.println("Enter team or player name to search: ");
                     String name = scanner.nextLine();
                     Object result = league.teamBST.search(name);
                     if (result == null) {
                         result = league.playerBST.search(name);
                     }
-                    if (result != null) {
-                        System.out.println("Found: " + result.toString()); 
+                    if (result != null) {                       /*     instanceOf is used for not returning pointer but returning included info     */
+                        if (result instanceof Team) {
+                            Team team = (Team) result;
+                            System.out.println("Team Name: " + team.teamName);
+                            System.out.println("Team ID: " + team.teamID);
+                            System.out.println("Points: " + team.totalPoints);
+                            System.out.println("Goal Difference: " + team.goalDifference);
+                            System.out.println("Players:");
+                            for (Player player : team.playerList) {
+                                System.out.println("  Player Name: " + player.playerName
+                                        + ", ID: " + player.playerID
+                                        + ", Position: " + player.position
+                                        + ", Goals: " + player.playerGoals);
+                            }
+                        } else if (result instanceof Player) {
+                            Player player = (Player) result;
+                            System.out.println("Player Name: " + player.playerName);
+                            System.out.println("Player ID: " + player.playerID);
+                            System.out.println("Position: " + player.position);
+                            System.out.println("Goals: " + player.playerGoals);
+                        }
                     } else {
                         System.out.println("No team or player found with the name: " + name);
                     }
